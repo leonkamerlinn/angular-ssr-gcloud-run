@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "angular-ssr-gcloud-run": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-ssr-gcloud-run",
+            "outputPath": "dist/angular-ssr-gcloud-run/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -121,8 +121,59 @@
               "devServerTarget": "angular-ssr-gcloud-run:serve:production"
             }
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/angular-ssr-gcloud-run/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "angular-ssr-gcloud-run:build",
+            "serverTarget": "angular-ssr-gcloud-run:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "angular-ssr-gcloud-run:build:production",
+              "serverTarget": "angular-ssr-gcloud-run:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "angular-ssr-gcloud-run:build:production",
+            "serverTarget": "angular-ssr-gcloud-run:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
+          }
         }
       }
-    }},
-  "defaultProject": "angular-ssr-gcloud-run"
+    }
+  },
+  "defaultProject": "angular-ssr-gcloud-run",
+  "cli": {
+    "analytics": "319de67e-51a3-4d16-9447-c34d400e2057"
+  }
 }

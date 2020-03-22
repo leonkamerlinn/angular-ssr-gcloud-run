@@ -1,0 +1,12 @@
+steps:
+    # Build the container image
+    - name: 'gcr.io/cloud-builders/docker'
+      args: ['build', '-t', 'gcr.io/tenseconds-b5f56/angular-ssr', '.']
+    # Push the image to Container Registry
+    - name: 'gcr.io/cloud-builders/docker'
+      args: ['push', 'gcr.io/tenseconds-b5f56/angular-ssr']
+    # Deploy image to Cloud Run
+    - name: 'gcr.io/cloud-builders/gcloud'
+      args: ['run', 'deploy', 'angular-ssr', '--image', 'gcr.io/tenseconds-b5f56/angular-ssr', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
+  images:
+    - gcr.io/tenseconds-b5f56/angular-ssr
