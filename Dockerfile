@@ -9,12 +9,13 @@ COPY package.json package-lock.json ./
 
 # Install app dependencies
 RUN npm install
+RUN npm build:ssr
 
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 4000
 
 # Start Node server
-# npm run build:ssr && npm run serve:ssr
-CMD [ "npm", "run", "build:ssr", "&&", "npm", "run", "serve:ssr" ]
+#pm run build:ssr && npm run serve:ssr
+CMD [ "npm", "serve:ssr" ]
